@@ -1,0 +1,102 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD app.o
+LOAD config.o
+LOAD draw.o
+LOAD start.o
+                0x0000000000080000                . = 0x80000
+
+.text           0x0000000000080000    0x90254
+ *(.text.boot)
+ .text.boot     0x0000000000080000    0x100c8 start.o
+                0x0000000000080000                _start
+ *(.text*)
+ .text          0x00000000000900c8       0x50 app.o
+                0x00000000000900c8                main
+ .text          0x0000000000090118       0xe8 config.o
+                0x0000000000090120                dibujarPixel
+                0x000000000009013c                dibujarLinea
+                0x0000000000090180                dibujarLineaV
+                0x00000000000901c0                dibujarLineaH
+ .text          0x0000000000090200       0x54 draw.o
+                0x0000000000090200                dibujarRectangulo
+ .text          0x0000000000090254    0x80000 start.o
+
+.iplt           0x0000000000110254        0x0
+ .iplt          0x0000000000110254        0x0 app.o
+
+.rela.dyn       0x0000000000110258        0x0
+ .rela.iplt     0x0000000000110258        0x0 app.o
+ .rela.text.boot
+                0x0000000000110258        0x0 app.o
+
+.data           0x0000000000110254        0x0
+ .data          0x0000000000110254        0x0 app.o
+ .data          0x0000000000110254        0x0 config.o
+ .data          0x0000000000110254        0x0 draw.o
+ .data          0x0000000000110254        0x0 start.o
+
+.igot.plt       0x0000000000110258        0x0
+ .igot.plt      0x0000000000110258        0x0 app.o
+
+.bss            0x0000000000110254        0x0
+ *(.bss*)
+ .bss           0x0000000000110254        0x0 app.o
+ .bss           0x0000000000110254        0x0 config.o
+ .bss           0x0000000000110254        0x0 draw.o
+ .bss           0x0000000000110254        0x0 start.o
+
+.bss            0x0000000000110254        0xc
+                0x0000000000110260                . = ALIGN (0x10)
+ *fill*         0x0000000000110254        0xc 
+                0x0000000000110260                __bss_start = .
+ *(.bss .bss.*)
+ *(COMMON)
+                0x0000000000110260                __bss_end = .
+                0x0000000000110260                _end = .
+                0x0000000000000000                __bss_size = ((__bss_end - __bss_start) >> 0x3)
+OUTPUT(kernel8.elf elf64-littleaarch64)
+LOAD linker stubs
+
+.debug_line     0x0000000000000000      0x162
+ .debug_line    0x0000000000000000       0x4c app.o
+ .debug_line    0x000000000000004c       0x75 config.o
+ .debug_line    0x00000000000000c1       0x4e draw.o
+ .debug_line    0x000000000000010f       0x53 start.o
+
+.debug_info     0x0000000000000000       0xb8
+ .debug_info    0x0000000000000000       0x2e app.o
+ .debug_info    0x000000000000002e       0x2e config.o
+ .debug_info    0x000000000000005c       0x2e draw.o
+ .debug_info    0x000000000000008a       0x2e start.o
+
+.debug_abbrev   0x0000000000000000       0x50
+ .debug_abbrev  0x0000000000000000       0x14 app.o
+ .debug_abbrev  0x0000000000000014       0x14 config.o
+ .debug_abbrev  0x0000000000000028       0x14 draw.o
+ .debug_abbrev  0x000000000000003c       0x14 start.o
+
+.debug_aranges  0x0000000000000000       0xc0
+ .debug_aranges
+                0x0000000000000000       0x30 app.o
+ .debug_aranges
+                0x0000000000000030       0x30 config.o
+ .debug_aranges
+                0x0000000000000060       0x30 draw.o
+ .debug_aranges
+                0x0000000000000090       0x30 start.o
+
+.debug_str      0x0000000000000000       0x4c
+ .debug_str     0x0000000000000000       0x34 app.o
+ .debug_str     0x0000000000000034        0x9 config.o
+                                         0x37 (size before relaxing)
+ .debug_str     0x000000000000003d        0x7 draw.o
+                                         0x35 (size before relaxing)
+ .debug_str     0x0000000000000044        0x8 start.o
+                                         0x36 (size before relaxing)
