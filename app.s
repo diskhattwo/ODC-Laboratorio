@@ -15,7 +15,7 @@
 	.include "config.s"
 	.include "colour.s"
 main:
-	
+	//prueba
 	// x0 contiene la direccion base del framebuffer
 	// 32 bits per pixel (4 bytes)
 
@@ -47,7 +47,7 @@ main:
 	ldr x10, =BLANCO
 	// esto lo dibuja
 	bl dibujarRectangulo
-	// hiiiii heyyyyy omg :3
+
 InfLoop:
 	b InfLoop
 
