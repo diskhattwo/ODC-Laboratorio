@@ -47,7 +47,7 @@ main:
 	ldr x10, =BLANCO
 	// esto lo dibuja
 	bl dibujarRectangulo
-
+	// hiiiii heyyyyy omg :3
 InfLoop:
 	b InfLoop
 
