@@ -11,7 +11,9 @@
 	.equ GPIO_GPLEV0,  0x34
 
 	.globl main
-
+	.include "draw.s"
+	.include "config.s"
+	.include "colour.s"
 main:
 	
 	// x0 contiene la direccion base del framebuffer
@@ -26,37 +28,23 @@ main:
 	//
 	//
 
-cielo:
-
-	movz x10, 0x87, lsl 16
-	movk x10, 0xCEEB, lsl 00
-
-	mov x20, x0
-
-	mov x2, SCREEN_HEIGH         // Y Size
-
-loop1:
-	mov x1, SCREEN_WIDTH         // X Size
-loop0:
-	stur w10,[x20]  // Colorear el pixel N
-	add x20,x20,4    // Siguiente pixel
-	sub x1,x1,1    // Decrementar contador X
-	cbnz x1,loop0  // Si no terminó la fila, salto
-	sub x2,x2,1    // Decrementar contador Y
-	CMP x2, 150 //comparo si x2 es 400
-	B.NE loop1 // si son diferentes vuelve al loop 
-
-
-
-	movz x10, COLOR_1, lsl 16
-	movk x10, COLOR_2, lsl 0
+	bl fondo
 
 	// esto ubica el rectangulo
-	mov x1, 90
-	mov x2, 60
-	mov x3, 150
-	mov x4, 180
+	mov x1, 150			// posición x
+	mov x2, 150			// posición y
+	mov x3, 500			// ancho
+	mov x4, 350			// largo
+	ldr x10, =AMARILLO
+	// esto lo dibuja
+	bl dibujarRectangulo
 
+	// esto ubica el rectangulo
+	mov x1, 170			// posición x
+	mov x2, 170			// posición y
+	mov x3, 480			// ancho
+	mov x4, 330			// largo
+	ldr x10, =BLANCO
 	// esto lo dibuja
 	bl dibujarRectangulo
 
